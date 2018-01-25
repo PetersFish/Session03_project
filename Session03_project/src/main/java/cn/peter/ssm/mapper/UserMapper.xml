@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--映射接口 -->
+<mapper namespace="cn.peter.ssm.mapper.UserMapper">
+
+    <resultMap type="cn.peter.ssm.pojo.User" id="userResultMap">
+        <id column="UID" property="uid"/>
+        <result column="USERNAME" property="username"/>
+        <result column="PASSWORD" property="password"/>
+    </resultMap>
+
+    <!-- listAll -->
+    <select id="listAll" resultMap="userResultMap">
+        SELECT * from USER
+    </select>
+
+    <!-- select by attributes -->
+    <select id="getUser" parameterType="cn.peter.ssm.pojo.User" resultMap="userResultMap">
+        select * from user
+        <where>
+            <if test="username != null and username !=''">
+                and username=#{username}
+            </if>
+            <if test="password != null and password !=''">
+                and password=#{password}
+            </if>
+            <if test="uid != null and password !=''">
+                and uid=#{uid}
+            </if>
+        </where>
+    </select>
+
+    <!-- select by attributes -->
+    <select id="selectByAttributeSelective" parameterType="cn.peter.ssm.pojo.User" resultMap="userResultMap">
+        select * from user
+        <where>
+            <if test="authority != null">
+                authority=#{authority,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <!-- update user -->
+    <update id="updateUser" parameterType="User">
+        update user
+        <set>
+            <if test="nickname != null">
+                NICKNAME=#{nickname,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                USERNAME=#{username,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                AGE=#{age,jdbcType=INTEGER},
+            </if>
+            <if test="gender != null">
+                GENDER=#{gender,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                PHONE=#{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                ADDRESS=#{address,jdbcType=VARCHAR}
+            </if>
+            <if test="password != null">
+                PASSWORD=#{password,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where UID=#{uid,jdbcType=INTEGER}
+    </update>
+
+    <insert id="insertByAttributeSelective" parameterType="User">
+        INSERT INTO user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                USERNAME,
+            </if>
+            <if test="password != null">
+                PASSWORD,
+            </if>
+            <if test="authority != null">
+                AUTHORITY,
+            </if>
+            <if test="nickname != null">
+                NICKNAME,
+            </if>
+            <if test="age != null">
+                AGE,
+            </if>
+            <if test="gender != null">
+                GENDER,
+            </if>
+            <if test="phone != null">
+                PHONE,
+            </if>
+            <if test="address != null">
+                ADDRESS,
+            </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="authority != null">
+                #{authority},
+            </if>
+            <if test="nickname != null">
+                #{nickname},
+            </if>
+            <if test="age != null">
+                #{age},
+            </if>
+            <if test="gender != null">
+                #{gender},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="address != null">
+                #{address},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- getUserById -->
+    <select id="getUserById" parameterType="int" resultType="User">
+        select * from user where uid=#{id}
+    </select>
+</mapper>
