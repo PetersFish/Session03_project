@@ -42,7 +42,7 @@
                     <td align="left">
                         <input type="text" name="username" id="username"/>
                         <span class="required">*</span>
-                        <label for="username" class="error"></label>
+                        <label for="username" class="error"></label><span id="checkUser"></span>
                     </td>
                 </tr>
                 <tr>
@@ -104,11 +104,33 @@
 <script>
 
     $(function () {
+        $.validator.addMethod("isExist", function (value, element, param) {
+            var flag = false;
+            //var mydata = JSON.stringify({username:value})
+
+            $.ajax({
+                url: "${pageContext.request.contextPath}/user/checkUsername.action",
+                data: {username: value},
+                success: function (result) {
+                    if (result == '0') {
+                        $("#checkUser").html("用户名可以使用")
+                        flag = true;
+                    } else {
+                        $("#checkUser").html("")
+                        flag = false;
+                    }
+                },
+                type: "POST",
+                async: false
+            }, "用户名已存在");
+            return flag;
+        });
         $("#myForm").validate({
             rules: {
                 username: {
                     required: true,
-                    minlength: 5
+                    minlength: 5,
+                    isExist: true
                 },
                 password: {
                     required: true,
@@ -126,7 +148,8 @@
             messages: {
                 username: {
                     required: "用户名不能为空",
-                    minlength: "最小长度为5"
+                    minlength: "最小长度为5",
+                    isExist: "用户名已存在"
                 },
                 password: {
                     required: "密码不能为空",
@@ -142,10 +165,12 @@
                 }
             },
             submitHandler: function () {
+                alert("发送表单")
                 $.post(
                     "${pageContext.request.contextPath}/user/accountAddSubmit.action",
                     $("#myForm").serialize(),
                     function (data) {
+                        alert("返回结果")
                         if (data == "1") {
                             alert("添加成功！");
                             location.href = "${pageContext.request.contextPath}/user/accountAdmin.action";
@@ -160,6 +185,30 @@
     function returnAccountAdmin() {
         location.href = "${pageContext.request.contextPath}/user/accountAdmin.action";
     }
+
+    /*function checkUsername(name) {
+        var flag = false;
+
+        $.ajax({
+            url:"${pageContext.request.contextPath}/user/checkUsername.action",
+            data:{username:name},
+            success:function (data) {
+                if(data == '0'){
+                    $("#checkUser").html("用户名有效");
+                    flag = true;
+                }else {
+                    $("#checkUser").html("用户名已存在，请更换用户名");
+                    flag = false;
+                }
+            },
+            type:"text",
+            async:false
+        });
+
+
+        alert("flag:"+flag);
+        return flag;
+    }*/
 
 </script>
 </body>

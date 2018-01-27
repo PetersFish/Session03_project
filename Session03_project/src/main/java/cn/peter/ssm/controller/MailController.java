@@ -92,7 +92,7 @@ public class MailController {
 
 		//处理附件上传的模块
 		try {
-			String attach_addr = "/Users/yu/IdeaProjects/Session03_project/src/main/webapp/attachment/";
+			String attach_addr = session.getServletContext().getRealPath("/attachment/");
 			if (file != null && !file.isEmpty()) {
 				String filename = file.getOriginalFilename();
 				String path = attach_addr + filename;

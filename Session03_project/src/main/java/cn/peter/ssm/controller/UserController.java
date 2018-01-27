@@ -2,18 +2,20 @@ package cn.peter.ssm.controller;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import cn.peter.ssm.pojo.User;
 import cn.peter.ssm.service.IUserService;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.io.PrintWriter;
 import java.util.List;
 
 @Controller
@@ -52,7 +54,7 @@ public class UserController {
 
 	//跳转到个人信息页面
 	@RequestMapping(value = "/forward.action")
-	public String personalIfo(HttpSession session) {
+	public String personalIfo(HttpSession session, ModelAndView view) {
 		session.setAttribute("pageIfo", "infoRead.jsp");
 		return "redirect:/user/toindex.do";
 	}
@@ -162,6 +164,18 @@ public class UserController {
 		return "redirect:/user/toindex.do";
 	}
 
+	//管理员编辑账户的操作
+	@ResponseBody
+	@RequestMapping(value = "accountAdminEditSubmit.action")
+	public String accountAdminEditSubmit(HttpSession session, User user) {
+
+		//更改user信息
+		userService.updateUser(user);
+
+		session.setAttribute("pageIfo", "accountAdmin.jsp");
+		return "1";
+	}
+
 	//管理员添加账户信息的页面
 	@RequestMapping(value = "accountAddPage.action")
 	public String accountAddPage(HttpSession session) {
@@ -178,6 +192,50 @@ public class UserController {
 
 		//将获得的user信息传入数据库
 		userService.insertByAttributeSelective(user);
+		//跳转到编辑页面
+		session.setAttribute("pageIfo", "accountAdmin.jsp");
+		return "1";
+	}
+
+	//检查用户名
+	@ResponseBody
+	@RequestMapping(value = "/checkUsername.action")
+	public String checkUsername(User user) {
+		if (user.getUsername() != null) {
+			//通过username查询user
+			User feedback = userService.getUser(user);
+			if (feedback != null) {
+				return "1";
+			}
+		}
+		return "0";
+	}
+
+	//跳转test.jsp表单
+	@RequestMapping("test.do")
+	public String toTest() {
+		return "test";
+	}
+
+	//测试void Handler
+	//@ResponseBody
+	@RequestMapping(value = "testVoid.action")
+	public void testVoid(String uid, PrintWriter writer) {
+		user.setUid(Integer.parseInt(uid));
+		user = userService.getUser(this.user);
+		String jsonString = JSON.toJSONString(user, true);
+		writer.write(jsonString);
+	}
+
+	//restful风格代码测试
+	@ResponseBody
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public String updateUser(@PathVariable("id") Integer id, HttpSession session, User user) {
+
+		//通过id更新用户
+		user.setUid(id);
+		userService.updateUser(user);
+
 		//跳转到编辑页面
 		session.setAttribute("pageIfo", "accountAdmin.jsp");
 		return "1";

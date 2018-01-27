@@ -58,6 +58,9 @@
                 <tr>
                     <td align="center" colspan="2"><br/><input type="button" id="save" value="编辑数据" onclick="setit()"/>
                     </td>
+                    <%-- <td>
+                         <input type="button" onclick="testJsp()">
+                     </td>--%>
                 </tr>
 
             </table>
@@ -69,6 +72,11 @@
     function setit() {
         location.href = "${pageContext.request.contextPath}/user/userEdit.action";
     }
+
+    /*function testJsp() {
+        <% %>
+    }
+*/
 
 </script>
 </body>

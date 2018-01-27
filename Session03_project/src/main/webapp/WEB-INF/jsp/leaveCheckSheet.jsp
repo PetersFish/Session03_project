@@ -81,7 +81,7 @@
                         <td class="hide">${m.l_reason}</td>
                         <td>
                             <c:if test="${m.l_approve == 0}">
-                                [<a href="${pageContext.request.contextPath}/leave/leaveFormCheck.action?l_id=${m.l_id}">审核</a>]
+                                [<a href="${pageContext.request.contextPath}/leave/leaveFormCheck.action?l_id=${m.l_id}"><span style="color: darkorange">审核</span></a>]
                             </c:if>
                         </td>
                     </tr>

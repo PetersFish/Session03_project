@@ -22,9 +22,13 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#"
-                                                                       onclick="location.href='loginOut.action'"
-                                                                       ;>注销</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+            href="#"
+            onclick="location.href='loginOut.action'"
+            ;>注销</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        时间：<span id="time" style="color: #ff3300"></span>
     </div>
 </div>
 
@@ -44,7 +48,7 @@
         <body>
         <div class="nav" id="nav">
             <div class="t"></div>
-            <dl>
+            <dl class="">
                 <dt onclick="this.parentNode.className=this.parentNode.className=='open'?'':'open';">信息管理
                 </dt>
                 <dd>
@@ -120,7 +124,28 @@
             location.href = "${pageContext.request.contextPath}/user/tologin.do";
         }
 
+        t = setInterval('getCurrentTime()', 500);
+
     });
+
+
+    function getCurrentTime() {
+        var d = new Date();
+        var h = d.getHours();
+        var m = d.getMinutes();
+        var s = d.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        $("#time").html(h + ':' + m + ':' + s);
+    }
+
+    function checkTime(i) {
+        if (i < 10) {
+            i = '0' + i;
+        }
+        return i;
+    }
+
 
 </script>
 </body>

@@ -62,7 +62,7 @@
                 PHONE=#{phone,jdbcType=VARCHAR},
             </if>
             <if test="address != null">
-                ADDRESS=#{address,jdbcType=VARCHAR}
+                ADDRESS=#{address,jdbcType=VARCHAR},
             </if>
             <if test="password != null">
                 PASSWORD=#{password,jdbcType=VARCHAR}

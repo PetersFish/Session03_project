@@ -35,8 +35,8 @@
                         用户名：
                     </td>
                     <td align="left" width="55%">
-                        <input type="text" name="username" value="${user.username}" id="username"/>
-                        <span class="required">*</span>
+                        <input type="text" name="username" value="${user.username}" id="username" readonly="readonly"/>
+                        <span class="required">*</span>(用户名不可更改)
                         <label for="username" class="error"></label>
                     </td>
                 </tr>

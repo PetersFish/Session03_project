@@ -27,9 +27,17 @@
     </div>
     <div class="pages">
         <form id="myForm">
-            <input type="hidden" name="uid" value="${userForAdmin.uid}"/>
             <input type="hidden" name="authority" value="${userForAdmin.authority}" id="u_supper"/>
             <table width="90%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td align="right">权限：</td>
+                    <td align="left">
+                        <select name="authority" id="authority">
+                            <option value="0">普通账户</option>
+                            <option value="1">管理员账户</option>
+                        </select>
+                    </td>
+                </tr>
                 <tr>
                     <td align="right" width="45%">用户名：</td>
                     <td align="left">
@@ -89,12 +97,13 @@
                         <input type="button" id="return" value="返回" onclick="returnAccountAdmin()"/>
                     </td>
                 </tr>
-
             </table>
+            <input type="hidden" name="_method" value="PUT">
         </form>
     </div>
 </div>
 <script>
+
 
     $(function () {
         $("#myForm").validate({
@@ -136,12 +145,12 @@
             },
             submitHandler: function () {
                 $.post(
-                    "${pageContext.request.contextPath}/user/userInfo!editData.action",
+                    "<%--${pageContext.request.contextPath}/user/accountAdminEditSubmit.action--%>${pageContext.request.contextPath}/user/${userForAdmin.uid}",
                     $("#myForm").serialize(),
                     function (data) {
                         if (data == "1") {
                             alert("修改成功！");
-                            location.href = "${pageContext.request.contextPath}/user/toindex.do";
+                            location.href = "${pageContext.request.contextPath}/user/accountAdmin.action";
                         }
                     },
                     "text"
