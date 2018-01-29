@@ -14,15 +14,24 @@
 
     <!-- 扫描controller注解 -->
     <context:component-scan base-package="cn.peter.ssm.controller"></context:component-scan>
+    <context:component-scan base-package="cn.peter.ssm.convertor"></context:component-scan>
 
     <!-- 添加注解驱动 -->
-    <mvc:annotation-driven></mvc:annotation-driven>
+    <mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>
 
     <!-- 配置视图解析器 -->
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/"></property>
         <property name="suffix" value=".jsp"></property>
+    </bean>
+
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <ref bean="timeConvertor"></ref>
+            </set>
+        </property>
     </bean>
 
 

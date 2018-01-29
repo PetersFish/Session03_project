@@ -8,6 +8,7 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>Title</title>
@@ -70,8 +71,8 @@
                     <tr class="my_row">
                         <td>${i.count}</td>
                         <td>${m.l_proposer}</td>
-                        <td>${m.l_beginTime}</td>
-                        <td>${m.l_endTime}</td>
+                        <td><f:formatDate value="${m.l_beginTime}" pattern="yyyy-MM-dd"></f:formatDate></td>
+                        <td><f:formatDate value="${m.l_endTime}" pattern="yyyy-MM-dd"></f:formatDate></td>
                         <td>${m.l_days}</td>
                         <td>
                             <c:if test="${m.l_approve == 0}"><span style="color: #2357E7">未审核</span></c:if>
