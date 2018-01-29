@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Component
+/*add*/
 public class TimeConvertor implements Converter<String, Date> {
 	@Override
 	public Date convert(String s) {
